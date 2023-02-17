@@ -75,7 +75,7 @@ public class Tela extends JPanel implements ActionListener {
 		if(statusJogo) {
 			cobra.andar();
 			comida();
-			
+			limites();
 			if(key_states[KeyEvent.VK_UP]) {
 				if(cobra.direcao == 'B') {
 					cobra.direcao = 'B';
@@ -109,6 +109,16 @@ public class Tela extends JPanel implements ActionListener {
 	public void comida() {
 		if((cobra.eixoX[0] == fruta.frutaEixoX) && (cobra.eixoY[0] == fruta.frutaEixoY)) {
 			fruta.setPosicao();
+		}
+	}
+	
+	public void limites() {
+		if(cobra.eixoX[0] > LARGURA_TELA || cobra.eixoY[0] > ALTURA_TELA) {
+			this.statusJogo = false;
+		}else if(cobra.eixoX[0] < 0 || cobra.eixoY[0] < 0){
+			this.statusJogo = false;
+		}else {
+			this.statusJogo = true;
 		}
 	}
 	
