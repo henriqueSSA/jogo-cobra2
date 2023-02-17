@@ -2,6 +2,7 @@ package br.com.henrique.modelo;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,6 +22,7 @@ public class Tela extends JPanel implements ActionListener {
 	public static final int TAMANHO_BLOCO = 30;
 	public static final int DELAY = 200;
 	public static final int UNIDADES = LARGURA_TELA * ALTURA_TELA / (TAMANHO_BLOCO * TAMANHO_BLOCO);
+	public Integer pontos = 0;
 	public boolean statusJogo = false;
 	public boolean[] key_states = new boolean[256];
 	public Cobra cobra;
@@ -53,17 +55,30 @@ public class Tela extends JPanel implements ActionListener {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		draw(g);
+		
 	}
 	
 	private void draw(Graphics g) {
-		for(int i=1;i<cobra.tamanho;i++) {
+		if(statusJogo) {
 			g.setColor(Color.RED);
-			g.fillOval(fruta.frutaEixoX, fruta.frutaEixoY, TAMANHO_BLOCO, TAMANHO_BLOCO);
-			g.setColor(Color.GREEN);
-			g.fillRect(cobra.eixoX[0], cobra.eixoY[0], TAMANHO_BLOCO, TAMANHO_BLOCO);
-			g.setColor(new Color(45,180,0));
-			g.fillRect(cobra.eixoX[i], cobra.eixoY[i], TAMANHO_BLOCO, TAMANHO_BLOCO);
-			
+			g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+			g.drawString("Pontos:",650,30);
+			g.setColor(Color.RED);
+			g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+			g.drawString(Integer.toString(this.pontos), 760, 30);
+			for(int i=1;i<cobra.tamanho;i++) {
+				g.setColor(Color.RED);
+				g.fillOval(fruta.frutaEixoX, fruta.frutaEixoY, TAMANHO_BLOCO, TAMANHO_BLOCO);
+				g.setColor(Color.GREEN);
+				g.fillRect(cobra.eixoX[0], cobra.eixoY[0], TAMANHO_BLOCO, TAMANHO_BLOCO);
+				g.setColor(new Color(45,180,0));
+				g.fillRect(cobra.eixoX[i], cobra.eixoY[i], TAMANHO_BLOCO, TAMANHO_BLOCO);
+				
+			}
+		}else {
+			g.setColor(Color.RED);
+			g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+			g.drawString("\uD83D\uDE1D Game Over.",500,300);
 		}
 		
 	}
@@ -109,13 +124,15 @@ public class Tela extends JPanel implements ActionListener {
 	public void comida() {
 		if((cobra.eixoX[0] == fruta.frutaEixoX) && (cobra.eixoY[0] == fruta.frutaEixoY)) {
 			fruta.setPosicao();
+			cobra.tamanho++;
+			this.pontos +=10;
 		}
 	}
 	
 	public void limites() {
-		if(cobra.eixoX[0] > LARGURA_TELA || cobra.eixoY[0] > ALTURA_TELA) {
+		if(cobra.eixoX[0] == LARGURA_TELA || cobra.eixoY[0] == ALTURA_TELA) {
 			this.statusJogo = false;
-		}else if(cobra.eixoX[0] < 0 || cobra.eixoY[0] < 0){
+		}else if(cobra.eixoX[0] == 0 || cobra.eixoY[0] == 0){
 			this.statusJogo = false;
 		}else {
 			this.statusJogo = true;
