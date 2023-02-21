@@ -130,13 +130,27 @@ public class Tela extends JPanel implements ActionListener {
 	}
 	
 	public void limites() {
-		if(cobra.eixoX[0] == LARGURA_TELA || cobra.eixoY[0] == ALTURA_TELA) {
+		if((cobra.eixoX[0] >= LARGURA_TELA) || (cobra.eixoY[0] == ALTURA_TELA)) {
 			this.statusJogo = false;
-		}else if(cobra.eixoX[0] == 0 || cobra.eixoY[0] == 0){
+		}else if((cobra.eixoX[0] == 0) || (cobra.eixoY[0] == 0)){
 			this.statusJogo = false;
-		}else {
+		}else if (limitesCobra()) {
+			this.statusJogo = false;
+		}
+		
+		else {
 			this.statusJogo = true;
 		}
+	}
+	
+	public boolean limitesCobra() {
+		for(int i=1;i<cobra.tamanho;i++) {
+			if((cobra.eixoX[0] == cobra.eixoX[i]) && (cobra.eixoY[0] == cobra.eixoY[i])) {
+				return true;
+				
+			}
+		}
+		return false;
 	}
 	
 	private class KeyboardAdapter extends KeyAdapter{

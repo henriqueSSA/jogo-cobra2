@@ -11,6 +11,7 @@ public class Main extends JFrame{
 		pack();
 		setVisible(true);
 		setLocationRelativeTo(null);
+		setResizable(false);
 	}
 
 	public static void main(String[] args) {
